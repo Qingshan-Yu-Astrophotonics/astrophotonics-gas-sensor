@@ -1,0 +1,9 @@
+﻿D_m: 1.0
+D_obs_m: 0.2
+n_mirrors: 2
+mirror_reflectivity: 0.90
+eta_atm: 0.85
+eta_fore: 0.80
+eta_inj: 0.60
+seeing_arcsec: 1.0
+omega_ap_arcsec2: 1.0

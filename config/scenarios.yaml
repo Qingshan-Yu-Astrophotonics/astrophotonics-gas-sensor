@@ -1,0 +1,22 @@
+﻿scenarios:
+  - name: 3-port
+    n_port: 3
+    lantern:
+      alpha_ad: 0.3
+      sigma_mix: 0.8
+      eta0: 0.95
+      w_cut: 0.8
+  - name: 7-port
+    n_port: 7
+    lantern:
+      alpha_ad: 0.3
+      sigma_mix: 0.8
+      eta0: 0.95
+      w_cut: 0.8
+  - name: 19-port
+    n_port: 19
+    lantern:
+      alpha_ad: 0.3
+      sigma_mix: 0.8
+      eta0: 0.95
+      w_cut: 0.8

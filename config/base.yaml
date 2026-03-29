@@ -1,0 +1,49 @@
+﻿wavelength_nm:
+  start_nm: 800.0
+  stop_nm: 1100.0
+  step_nm: 1.0
+
+outputs:
+  figures_dir: results/figures
+  tables_dir: results/tables
+
+snr_target: 5.0
+default_ports:
+  - 3
+  - 7
+  - 19
+
+source:
+  root_bracket_mag:
+    - -5.0
+    - 35.0
+  default_m_ab: 18.0
+  m_ab_grid:
+    start_mag: 0.0
+    stop_mag: 25.5
+    step_mag: 0.5
+
+observation:
+  exposure_time_s: 300.0
+  target_total_time_s: 3600.0
+  t_total_s:
+    - 60.0
+    - 300.0
+    - 900.0
+    - 3600.0
+    - 10000.0
+
+sky:
+  model: constant
+  value_photons_s_m2_nm_arcsec2: 150.0
+
+lantern:
+  lambda0_nm: 950.0
+  alpha_ad: 0.3
+  eta0: 0.95
+  sigma_mix: 0.8
+  w_cut: 0.8
+  input_profile: uniform
+  port_map_mode: uniform
+  random_seed: 12345
+  port_distribution_lambda_nm: 950.0
