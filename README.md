@@ -66,14 +66,15 @@ $$
 \eta_{\mathrm{internal}}(\lambda)
 QE(\lambda)
 $$
+
 其中：
 
-- $$\eta_{\mathrm{atm}}$$：大气传输
-- $$\eta_{\mathrm{tel}}$$：望远镜镜面链路反射率
-- $$\eta_{\mathrm{fore}}$$：前端光学透过率
-- $$\eta_{\mathrm{inj}}$$：外部注入到 lantern 多模端的效率
-- $$\eta_{\mathrm{internal}}$$：lantern 内部传播 surrogate 给出的吞吐
-- $$QE$$：探测器量子效率
+- $\eta_{\mathrm{atm}}$：大气传输
+- $\eta_{\mathrm{tel}}$：望远镜镜面链路反射率
+- $\eta_{\mathrm{fore}}$：前端光学透过率
+- $\eta_{\mathrm{inj}}$：外部注入到 lantern 多模端的效率
+- $\eta_{\mathrm{internal}}$：lantern 内部传播 surrogate 给出的吞吐
+- $QE$：探测器量子效率
 
 这个表达式把 lantern 内部传播与系统外部传输清楚地拆开，使得代码更容易维护，也更适合未来升级。
 
@@ -87,13 +88,14 @@ $$
 ### 5.2 基本关系
 AB 零点：
 
-- $$F_{\nu,0} = 3631\,\mathrm{Jy}$$
+- $F_{\nu,0} = 3631\,\mathrm{Jy}$
 
-对给定星等 $$m_{AB}$$：
+对给定星等 $m_{AB}$：
 
 $$
 F_\nu = F_{\nu,0} 10^{-0.4 m_{AB}}
 $$
+
 然后把每单位频率的能流密度转换为每单位波长上的光子流率，最终统一成：
 
 - photons / s / m² / nm
@@ -103,12 +105,13 @@ $$
 $$
 N_s = t_{\rm exp} A_{\rm eff} \sum_\lambda \Phi_\lambda \, \eta_{\rm sys}(\lambda) \, \Delta\lambda
 $$
+
 这里：
 
-- $$N_s$$：源光子计数
-- $$A_{\rm eff}$$：望远镜有效 collecting area
-- $$t_{\rm exp}$$：曝光时间
-- $$\Phi_\lambda$$：光子谱流量
+- $N_s$：源光子计数
+- $A_{\rm eff}$：望远镜有效 collecting area
+- $t_{\rm exp}$：曝光时间
+- $\Phi_\lambda$：光子谱流量
 
 ---
 
@@ -120,10 +123,11 @@ $$
 $$
 A_{\mathrm{eff}} = \frac{\pi}{4}(D^2 - D_{\mathrm{obs}}^2)
 $$
+
 其中：
 
-- $$D$$：主镜口径
-- $$D_{\mathrm{obs}}$$：中央遮拦直径
+- $D$：主镜口径
+- $D_{\mathrm{obs}}$：中央遮拦直径
 
 这一步的意义是把镜面尺寸与中央遮拦统一折算为真正用于收集光子的几何面积。
 
@@ -156,12 +160,12 @@ $$
 ### 7.2 surrogate 的输入与输出
 内部模型输入：
 
-- 多模端模式功率向量 $$\mathbf{p}_{\rm in}$$
+- 多模端模式功率向量 $\mathbf{p}_{\rm in}$
 
 内部模型输出：
 
-- N 个单模端口上的输出功率向量 $$\mathbf{p}_{\rm out}$$
-- 该波长下的总内部 throughput $$\eta_{\rm internal}(\lambda)$$
+- N 个单模端口上的输出功率向量 $\mathbf{p}_{\rm out}$
+- 该波长下的总内部 throughput $\eta_{\rm internal}(\lambda)$
 
 这就足够支持：
 
@@ -183,9 +187,10 @@ $$
 \mathbf{S}_{\rm match}(\lambda)
 \mathbf{p}_{\rm in}(\lambda)
 $$
+
 下面分别解释。
 
-### 8.1 模式数匹配：$$\mathbf{S}_{\rm match}$$
+### 8.1 模式数匹配：$\mathbf{S}_{\rm match}$
 第一版最重要的物理约束就是：多模端支持的模式数不能比输出端口可承载的总自由度多太多，否则必然有损耗。
 
 项目中使用经验表达式：
@@ -193,7 +198,8 @@ $$
 $$
 M_{\rm mm}(\lambda)=N_{\rm port}\left(\frac{\lambda_0}{\lambda}\right)^2
 $$
-意思是：在设计波长 $$\lambda_0$$ 处，lantern 的多模端支持模式数与端口数大致匹配；往更短波长走，由于归一化频率增大，多模端支持模式数增加。
+
+意思是：在设计波长 $\lambda_0$ 处，lantern 的多模端支持模式数与端口数大致匹配；往更短波长走，由于归一化频率增大，多模端支持模式数增加。
 
 于是定义模式匹配 throughput：
 
@@ -201,31 +207,34 @@ $$
 \eta_{\rm match}(\lambda)=
 \min\left(1,\frac{N_{\rm port}}{M_{\rm mm}(\lambda)}\right)
 $$
+
 这是本版本中最关键的损失机制。
 
-### 8.2 非绝热惩罚：$$\eta_{\rm ad}$$
+### 8.2 非绝热惩罚：$\eta_{\rm ad}$
 即便模式数大致匹配，真实 taper 过渡仍可能因为不够平滑而引入额外损失。第一版不显式求解 taper 中的局域本征模演化，而用一个经验罚函数表示：
 
 $$
 \eta_{\rm ad}(\lambda)= \exp\left[-\alpha_{\rm ad}\max\left(0, \frac{M_{\rm mm}(\lambda)}{N_{\rm port}} - 1\right)\right]
 $$
+
 这里：
 
-- $$\alpha_{\rm ad}$$ 越大，说明系统对模式过多更加敏感
+- $\alpha_{\rm ad}$ 越大，说明系统对模式过多更加敏感
 - 当短波端模式数增长时，该项会压低 throughput
 
-### 8.3 模态混合：$$\mathbf{K}$$
+### 8.3 模态混合：$\mathbf{K}$
 真实 lantern 内部不会简单地保持每个输入模式绝对独立。不同模式在 taper 中可能发生一定程度的混合。第一版中使用高斯核矩阵构造模态混合：
 
 $$
 K_{ij} \propto \exp\left[-\frac{(i-j)^2}{2\sigma_{\rm mix}^2}\right]
 $$
+
 并对每一列归一化。其含义是：
 
-- $$\sigma_{\rm mix}$$ 很小时，混合弱，接近“各模式独立跟随”
-- $$\sigma_{\rm mix}$$ 较大时，模式间功率更容易重分配
+- $\sigma_{\rm mix}$ 很小时，混合弱，接近“各模式独立跟随”
+- $\sigma_{\rm mix}$ 较大时，模式间功率更容易重分配
 
-### 8.4 端口映射：$$\mathbf{R}$$
+### 8.4 端口映射：$\mathbf{R}$
 最后一步是把 surviving mode power 映射到 N 个端口。第一版至少支持两种方式：
 
 1. `uniform_port_map`：平均分到各端口
@@ -245,6 +254,7 @@ $$
 $$
 \eta_{\rm par}(\lambda)=\eta_0
 $$
+
 因此总内部 throughput 为：
 
 $$
@@ -253,6 +263,7 @@ $$
 \eta_{\rm match}(\lambda)
 \eta_{\rm ad}(\lambda)
 $$
+
 它代表 lantern 内部真正存活并输出到单模端口的总功率比例。后续的端口功率分配只是在这部分 surviving power 上继续分配。
 
 ---
@@ -261,11 +272,12 @@ $$
 
 这是理解本项目的关键。
 
-多模波导支持模式数与归一化频率 $$V$$ 的平方近似成正比，而 $$V$$ 又与 $$1/\lambda$$ 成正比。所以：
+多模波导支持模式数与归一化频率 $V$ 的平方近似成正比，而 $V$ 又与 $1/\lambda$ 成正比。所以：
 
 $$
 M \propto \lambda^{-2}
 $$
+
 这意味着：
 
 - 对同一个 lantern 设计，短波端会支持更多模式
@@ -296,7 +308,8 @@ $$
 N_{\rm sky}= t_{\rm exp} A_{\rm eff} \Omega_{\rm ap}
 \sum_\lambda \Phi_{\rm sky,\lambda}\eta_{\rm sys}(\lambda)\Delta\lambda
 $$
-其中 $$\Omega_{\rm ap}$$ 表示观测 aperture 对应的天空立体角，单位通常以 arcsec² 表示。
+
+其中 $\Omega_{\rm ap}$ 表示观测 aperture 对应的天空立体角，单位通常以 arcsec² 表示。
 
 ### 11.2 暗电流与读噪
 暗电流与读噪分别表示：
@@ -315,13 +328,14 @@ $$
 $$
 \mathrm{SNR} = \frac{N_s}{\sqrt{N_s + N_{\rm sky} + N_{\rm dark} + n_{\rm pix}RN^2}}
 $$
+
 其中：
 
-- $$N_s$$：源计数
-- $$N_{\rm sky}$$：背景计数
-- $$N_{\rm dark}$$：暗电流计数
-- $$RN$$：每像素读噪
-- $$n_{\rm pix}$$：参与读出的像素数
+- $N_s$：源计数
+- $N_{\rm sky}$：背景计数
+- $N_{\rm dark}$：暗电流计数
+- $RN$：每像素读噪
+- $n_{\rm pix}$：参与读出的像素数
 
 这是把系统 throughput 和真实观测能力连接起来的桥梁。
 
@@ -330,7 +344,7 @@ $$
 ## 13. 极限星等的定义与求解
 
 ### 13.1 什么是极限星等
-极限星等 $$m_{\rm lim}$$ 是指：在给定总积分时间和目标 SNR 下，能刚好达到该 SNR 阈值的最暗源的星等。
+极限星等 $m_{\rm lim}$ 是指：在给定总积分时间和目标 SNR 下，能刚好达到该 SNR 阈值的最暗源的星等。
 
 ### 13.2 数值求解方式
 项目会对函数：
@@ -338,11 +352,13 @@ $$
 $$
 SNR(m_{AB}) - SNR_{\rm target}
 $$
+
 做 root finding，找到解：
 
 $$
 SNR(m_{\rm lim}) = SNR_{\rm target}
 $$
+
 实现上建议使用 `scipy.optimize.brentq`，因为它稳定、易诊断、适合一维单峰型问题。
 
 ---
@@ -387,8 +403,8 @@ lantern_sim/
 ### 15.3 `src/source_flux.py`
 负责：
 
-- AB 星等转 $$F_\nu$$
-- $$F_\nu$$ 转 photon flux
+- AB 星等转 $F_\nu$
+- $F_\nu$ 转 photon flux
 - 输出统一单位的谱光子流率
 
 ### 15.4 `src/telescope.py`
