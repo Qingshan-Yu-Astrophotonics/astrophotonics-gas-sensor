@@ -69,12 +69,12 @@ QE(\lambda)
 
 其中：
 
-- \(\eta_{\mathrm{atm}}\)：大气传输
-- \(\eta_{\mathrm{tel}}\)：望远镜镜面链路反射率
-- \(\eta_{\mathrm{fore}}\)：前端光学透过率
-- \(\eta_{\mathrm{inj}}\)：外部注入到 lantern 多模端的效率
-- \(\eta_{\mathrm{internal}}\)：lantern 内部传播 surrogate 给出的吞吐
-- \(QE\)：探测器量子效率
+- $\(\eta_{\mathrm{atm}}\)$：大气传输
+- $\(\eta_{\mathrm{tel}}\)$：望远镜镜面链路反射率
+- $\(\eta_{\mathrm{fore}}\)$：前端光学透过率
+- $\(\eta_{\mathrm{inj}}\)$：外部注入到 lantern 多模端的效率
+- $\(\eta_{\mathrm{internal}}\)$：lantern 内部传播 surrogate 给出的吞吐
+- $\(QE\)$：探测器量子效率
 
 这个表达式把 lantern 内部传播与系统外部传输清楚地拆开，使得代码更容易维护，也更适合未来升级。
 
