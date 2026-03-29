@@ -1,7 +1,6 @@
-# astrophotonics-gas-sensor
 # Astrophotonics sensor for exoplanetary gas detection
 
-# throughput_sim
+## Part 1 | throughput_sim
 
 用于评估如下天文系统的端到端性能：**1 米级望远镜、无自适应光学（AO）、前端使用 photonic lantern、工作波段 800–1100 nm**。项目重点是建立一个**快速、透明、可扩展的系统级 surrogate model**，用于回答三个核心问题：
 
