@@ -57,7 +57,7 @@
 
 项目的总系统效率写为：
 
-\[
+$\[
 \eta_{\mathrm{sys}}(\lambda) =
 \eta_{\mathrm{atm}}(\lambda)
 \eta_{\mathrm{tel}}(\lambda)
@@ -65,7 +65,7 @@
 \eta_{\mathrm{inj}}(\lambda)
 \eta_{\mathrm{internal}}(\lambda)
 QE(\lambda)
-\]
+\]$
 
 其中：
 
